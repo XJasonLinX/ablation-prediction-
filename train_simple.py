@@ -8,9 +8,9 @@ import bianliang as vb
 
 warnings.filterwarnings("ignore")
 
-feature_df = pd.read_csv('pre18282.csv') 
-labels_np = np.array(feature_df['D'])
-feature_df = feature_df.drop(columns=['D'])
+feature_df = pd.read_csv('yourdata.csv') 
+labels_np = np.array(feature_df['results'])
+feature_df = feature_df.drop(columns=['results'])
 
 print("数据维度", feature_df.shape) 
 feature_np = np.array(feature_df)
@@ -69,9 +69,9 @@ with torch.no_grad():
     final_preds_np_flat = final_predictions.cpu().numpy().flatten()
     if len(np.unique(final_preds_np_flat)) < 5:
         print(f"FINAL WARNING: Predictions are nearly constant. Unique values: {np.unique(final_preds_np_flat)[:5]}")
-        # 输出这个固定值是否接近 'D' 的均值
+        # 输出这个固定值是否接近 'results' 的均值
         mean_d = np.mean(labels_np)
-        print(f"Mean of target 'D': {mean_d:.4f}. Constant prediction is around: {final_preds_np_flat[0]:.4f}")
+        print(f"Mean of target 'results': {mean_d:.4f}. Constant prediction is around: {final_preds_np_flat[0]:.4f}")
     else:
         print(f"Predictions range: [{final_preds_np_flat.min():.4f}, {final_preds_np_flat.max():.4f}]")
 
