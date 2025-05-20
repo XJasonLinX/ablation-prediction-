@@ -8,7 +8,7 @@ import pandas as pd
 import bianliang as vb
 
 # 检查CUDA是否可用
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = vb.device
 print(f"Using device: {device}")
 
 # 定义相同的网络结构并移动到GPU
@@ -18,17 +18,17 @@ output_size = 1
 my_nn = vb.simplest_model
 
 # 加载模型参数
-my_nn.load_state_dict(torch.load('my_model3.pth', map_location=device))
+my_nn.load_state_dict(torch.load('my_model.pth', map_location=device))
 my_nn.eval()  # 设置为评估模式
 
 # 加载scaler
-scaler = joblib.load('scaler3.save')
+scaler = joblib.load('scaler.save')
 
 # 读取所有数据
-data = pd.read_csv('pre18282.csv')
-z_true = data['D']  # 真实值
+data = pd.read_csv('truedata.csv')
+z_true = data['results']  # 真实值
 data = pd.read_csv('parameter_combinations.csv')
-input_data = data[['SHVV', 'SHVW', 'SHVN', 'LLVV', 'LLVW', 'N']].values
+input_data = data[['参数1', '参数2', '参数3', '参数4', '参数5', '参数6']].values
 
 # 使用保存的scaler进行归一化
 input_feature = scaler.transform(input_data)
@@ -46,8 +46,8 @@ fig = plt.figure(figsize=(12, 8))
 ax = fig.add_subplot(111, projection='3d')
 
 # 计算复合变量
-x_var = data['SHVV'] * data['SHVW'] * data['SHVN'] * data['N']
-y_var = data['LLVV'] * data['LLVW'] * data['N']
+x_var = data['参数1'] * data['参数2'] * data['参数3'] * data['参数6']
+y_var = data['参数4'] * data['参数5'] * data['参数6']
 z_var = predictions.numpy().flatten()  # 使用预测值
 
 # 创建预测结果的DataFrame并保存
@@ -77,26 +77,26 @@ wire = ax.plot_wireframe(xi, yi, zi_pred, rstride=5, cstride=5, alpha=0.7,
 #                         rstride=1, cstride=1, alpha=0.7,
 #                         label='Predicted Surface')
 #导入实验数据
-data = pd.read_csv('pre18282.csv')
-x_var = data['SHVV'] * data['SHVW'] * data['SHVN'] * data['N']
-y_var = data['LLVV'] * data['LLVW'] * data['N']
-z_true = data['D']  
+data = pd.read_csv('truedata.csv')
+x_var = data['参数1'] * data['参数2'] * data['参数3'] * data['参数6']
+y_var = data['参数4'] * data['参数5'] * data['参数6']
+z_true = data['truedata']  
 #绘制实验数据点
 scatter = ax.scatter(x_var, y_var, z_true,
                     color='red', s=50, label='True Values')
 
 # 设置标签
-ax.set_xlabel('SHV')
-ax.set_ylabel('LLV')
-ax.set_zlabel('D')
+ax.set_xlabel('复合参数1')
+ax.set_ylabel('复合参数2')
+ax.set_zlabel('results')
 
 # 添加标题
-plt.title('3D Wireframe Plot: Predicted Surface vs True Values (Model 2)')
+plt.title('3D Wireframe Plot: Predicted Surface vs True Values')
 
 # 添加颜色条
 sm = plt.cm.ScalarMappable(cmap=plt.cm.viridis, norm=norm)
 sm.set_array([])
-plt.colorbar(sm, ax=ax, label='D value')
+plt.colorbar(sm, ax=ax, label='trudata value')
 
 # 添加图例
 plt.legend()
