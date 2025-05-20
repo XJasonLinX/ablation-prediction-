@@ -26,7 +26,7 @@ scaler = joblib.load('scaler3.save')
 
 # 读取所有数据
 data = pd.read_csv('parameter_combinations.csv')
-input_data = data[['SHVV', 'SHVW', 'SHVN', 'LLVV', 'LLVW', 'N']].values
+input_data = data[['参数1', '参数2', '参数3', '参数4', '参数5', '参数6']].values
 
 # 使用保存的scaler进行归一化
 input_feature = scaler.transform(input_data)
@@ -47,7 +47,7 @@ valid_indices = np.where(np.abs(z_var - target_diameter) <= error_margin)[0]
 
 if len(valid_indices) > 0:
     print("\n找到以下符合条件的参数组合：")
-    print("\nSHVV, SHVW, SHVN, LLVV, LLVW, N, 预测直径")
+    print("\n参数1, 参数2, 参数3, 参数4, 参数5, 参数6 预测结果")
     print("-" * 50)
     for idx in valid_indices:
         params = input_data[idx]
@@ -58,7 +58,7 @@ if len(valid_indices) > 0:
     
     # 将结果保存到CSV文件
     results_df = pd.DataFrame(input_data[valid_indices], 
-                            columns=['SHVV', 'SHVW', 'SHVN', 'LLVV', 'LLVW', 'N'])
+                            columns=['参数1', '参数2', '参数3', '参数4', '参数5', '参数6'])
     results_df['Predicted_Diameter'] = z_var[valid_indices]
     results_df.to_csv('valid_parameters.csv', index=False)
     print(f"\n找到 {len(valid_indices)} 组符合条件的参数")
