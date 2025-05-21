@@ -8,3 +8,5 @@
 
 相关模型训练参数可以在bianliang.py里面调整
 通过bianliang.py调整训练输入参数，输出参数等，定义神经元框架等
+
+相关问题可联系微信：jasonlinxy
