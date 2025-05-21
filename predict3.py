@@ -12,8 +12,8 @@ device = vb.device
 print(f"Using device: {device}")
 
 # 定义相同的网络结构并移动到GPU
-input_size = 6
-output_size = 1
+input_size = vb.input_size
+output_size = vb.output_size
 
 my_nn = vb.simplest_model
 
