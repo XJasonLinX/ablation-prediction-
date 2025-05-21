@@ -1,7 +1,7 @@
 本项目通过神经网络训练来预测消融相关结果
 
 使用方法：
-1 通过train_simple.py来读取以及训练你的数据/n
+1 通过train_simple.py来读取以及训练你的数据\n
 2 通过gen_csv.py来创建所有参数的组合/n
 3 通过plot_all_prediction.py来绘制预测的结果/n
 4 可以通过calculater.py反向推算相关参数/n
